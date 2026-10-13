@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a19d5f117f08947a035a5cb5d96234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Title
-  nextSceneName: ProtoType
+  nextSceneName: Stage1
 --- !u!212 &1480047534
 SpriteRenderer:
   serializedVersion: 2

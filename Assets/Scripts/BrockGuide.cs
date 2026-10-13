@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BrockGuide : MonoBehaviour
 {
@@ -14,11 +16,19 @@ public class BrockGuide : MonoBehaviour
     [Header("--- 完成後に通過不可にするCollider ---")]
     [SerializeField] private Collider2D guideCollider;
 
+    [Header("Stage transition fade duration")]
+    [SerializeField, Min(0f)] private float transitionFadeDuration = 0.5f;
+
     private Brock currentBrock;
     private Hand playerHand;
+    private bool stageTransitionStarted;
 
     private void Start()
     {
+        // Reset guide state saved during editing so each run starts fresh.
+        isFilled = false;
+        currentBrock = null;
+        stageTransitionStarted = false;
         playerHand = FindFirstObjectByType<Hand>();
 
         if (guideCollider == null)
@@ -85,6 +95,8 @@ public class BrockGuide : MonoBehaviour
 
         SetGuideBlocking(true);
 
+        TryAdvanceStage();
+
         Debug.Log(
             $"ブロック({brock.brockNum})が"
             + $"ガイド({targetBrockNum})に配置されました"
@@ -94,6 +106,84 @@ public class BrockGuide : MonoBehaviour
         {
             GameManager.Instance.CheckClearConditionNow();
         }
+    }
+
+    private void TryAdvanceStage()
+    {
+        if (stageTransitionStarted)
+        {
+            return;
+        }
+
+        BrockGuide[] guides = FindObjectsByType<BrockGuide>(FindObjectsSortMode.None);
+        if (guides.Length == 0)
+        {
+            return;
+        }
+
+        foreach (BrockGuide guide in guides)
+        {
+            if (guide == null || !guide.isFilled)
+            {
+                return;
+            }
+        }
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        string nextSceneName = GetNextStageName(currentSceneName);
+        if (nextSceneName == null)
+        {
+            return;
+        }
+
+        stageTransitionStarted = true;
+
+        StageClearVisual clearVisual =
+            FindFirstObjectByType<StageClearVisual>();
+        if (clearVisual != null)
+        {
+            clearVisual.ShowClearImage();
+        }
+
+        if (nextSceneName.Length == 0)
+        {
+            Debug.Log("All four stages are complete.", this);
+            return;
+        }
+
+        StartCoroutine(LoadNextStage(nextSceneName, clearVisual));
+    }
+
+    private string GetNextStageName(string currentSceneName)
+    {
+        switch (currentSceneName)
+        {
+            case "Stage1": return "Stage2";
+            case "Stage2": return "Stage3";
+            case "Stage3": return "Stage4";
+            case "Stage4": return string.Empty;
+            default: return null;
+        }
+    }
+
+    private IEnumerator LoadNextStage(string sceneName, StageClearVisual clearVisual)
+    {
+        float clearImageWait = clearVisual != null
+            ? clearVisual.DisplayDuration
+            : 1.5f;
+        yield return new WaitForSeconds(clearImageWait);
+
+        if (!Application.CanStreamedLevelBeLoaded(sceneName))
+        {
+            Debug.LogError(
+                "Cannot load next stage '" + sceneName
+                + "'. Add it to the active Build Profile scene list.",
+                this
+            );
+            yield break;
+        }
+
+        StageTransitionFade.LoadScene(sceneName, transitionFadeDuration);
     }
 
     private void SetGuideBlocking(bool blocking)

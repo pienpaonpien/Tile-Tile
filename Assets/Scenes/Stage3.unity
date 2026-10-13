@@ -1773,6 +1773,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1332974409}
   - component: {fileID: 1332974408}
+  - component: {fileID: 991001003}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -2947,6 +2948,20 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+--- !u!114 &991001003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332974407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d8ab4f51c44fa595791e0ce227f4e6, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::StageClearVisual
+  clearImage: {fileID: 6667515014276263301, guid: c9f8c3bdf3039674b9911367d09a208e, type: 3}
+  displayDuration: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

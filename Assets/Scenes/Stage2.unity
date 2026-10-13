@@ -140,6 +140,7 @@ MonoBehaviour:
   snapDistance: 3
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!50 &132460047
 Rigidbody2D:
   serializedVersion: 5
@@ -239,7 +240,7 @@ Transform:
   m_GameObject: {fileID: 278562271}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.002, y: -0.02, z: 0}
+  m_LocalPosition: {x: 0.002, y: 0.119, z: 0}
   m_LocalScale: {x: 0.45091987, y: 1.0256217, z: 2.6153355}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -325,6 +326,7 @@ MonoBehaviour:
   snapDistance: 3
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!50 &469458187
 Rigidbody2D:
   serializedVersion: 5
@@ -979,6 +981,7 @@ MonoBehaviour:
   snapDistance: 1
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!61 &959286921
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1052,6 +1055,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &991001002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1113348600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d8ab4f51c44fa595791e0ce227f4e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageClearVisual
+  clearImage: {fileID: 6667515014276263301, guid: d6f0c865c94d6004a96fc391b2dc3900, type: 3}
+  displayDuration: 2
 --- !u!1 &1034040512
 GameObject:
   m_ObjectHideFlags: 0
@@ -1323,6 +1340,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2644146264045347618, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1113348601}
+    - targetCorrespondingSourceObject: {fileID: 2644146264045347618, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 991001002}
   m_SourcePrefab: {fileID: 100100000, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
 --- !u!1 &1113348600 stripped
 GameObject:
