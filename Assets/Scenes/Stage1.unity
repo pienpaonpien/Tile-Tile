@@ -139,6 +139,7 @@ MonoBehaviour:
   targetBrockNum: 1
   snapDistance: 3
   isFilled: 1
+  guideCollider: {fileID: 0}
 --- !u!50 &132460047
 Rigidbody2D:
   serializedVersion: 5
@@ -232,6 +233,7 @@ MonoBehaviour:
   targetBrockNum: 2
   snapDistance: 3
   isFilled: 1
+  guideCollider: {fileID: 0}
 --- !u!50 &469458187
 Rigidbody2D:
   serializedVersion: 5
@@ -1009,7 +1011,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1034129404, guid: 0d298560609f91c4ab79ac98f0b39221, type: 3}
   m_Color: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 0}
@@ -1212,7 +1214,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 5, y: 6.7}
+  m_Offset: {x: 5, y: 8}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
