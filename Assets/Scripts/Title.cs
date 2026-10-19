@@ -1,28 +1,57 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;  
+using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
-    public string nextSceneName; // 次のシーンの名前を指定するための変数
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public string nextSceneName;
+
+    [SerializeField] private OpeningScript openingStory;
+    [SerializeField] private SpriteRenderer titleScreenRenderer;
+
+    private bool hasStarted;
+
+    private void Awake()
     {
-        
+        if (titleScreenRenderer == null)
+        {
+            titleScreenRenderer = GetComponent<SpriteRenderer>();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)|| Input.GetKeyDown(KeyCode.JoystickButton1))
+        if (hasStarted)
         {
-            if (!string.IsNullOrEmpty(nextSceneName))
+            return;
+        }
+
+        if (!Input.GetKeyDown(KeyCode.Space) &&
+            !Input.GetKeyDown(KeyCode.JoystickButton1))
+        {
+            return;
+        }
+
+        if (openingStory != null)
+        {
+            hasStarted = true;
+
+            if (titleScreenRenderer != null)
             {
-                SceneManager.LoadScene(nextSceneName);
+                titleScreenRenderer.enabled = false;
             }
-            else
-            {
-                Debug.LogWarning("遷移先の nextSceneName がインスペクターで設定されていません！");
-            }
+
+            openingStory.Play(OpeningScript.Part.Opening);
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(nextSceneName))
+        {
+            hasStarted = true;
+            SceneManager.LoadScene(nextSceneName);
+        }
+        else
+        {
+            Debug.LogWarning("遷移先の nextSceneName がインスペクターで設定されていません！");
         }
     }
 }

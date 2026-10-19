@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -30,6 +30,10 @@ public class OpeningScript : StoryPlayer
     [Header("演出用（任意）")]
     [SerializeField] GameObject protagonist;       // story_1 の上に出す歩く主人公（空でもOK）
 
+    [Header("ステージ操作")]
+    [SerializeField] StoryInputGate gameplayInputGate;
+    [SerializeField] StoryGuideHighlighter guideHighlighter;
+
     [Header("イベント")]
     public UnityEvent onStarted;      // 会話の開始直前（プレイヤー操作を止める など）
     public UnityEvent onShowGuides;   // 「タイルに青赤黄の光が付く」タイミング（BrockGuide など）
@@ -47,7 +51,16 @@ public class OpeningScript : StoryPlayer
 
     /// <summary>外部（GameManager など）から呼ぶ用。例：opening.Play(OpeningScript.Part.Stage2Tutorial);</summary>
     public void Play() { Play(part); }
-    public void Play(Part which) { StartCoroutine(Run(which)); }
+    public void Play(Part which)
+    {
+        if (which != Part.Opening)
+        {
+            gameplayInputGate?.DisableGameplayInput();
+            guideHighlighter?.HideAll();
+        }
+
+        StartCoroutine(Run(which));
+    }
 
     IEnumerator Run(Part which)
     {
@@ -63,6 +76,7 @@ public class OpeningScript : StoryPlayer
 
         HideAll();
         onFinished?.Invoke();   // (プレイ画面に移行 / ステージ開始)
+        if (which != Part.Opening) gameplayInputGate?.EnableGameplayInput();
         if (!string.IsNullOrEmpty(nextSceneName)) SceneManager.LoadScene(nextSceneName);
     }
 
@@ -139,6 +153,7 @@ public class OpeningScript : StoryPlayer
     {
         PlayBGM("suzurankeikoku");                          // {suzurankeikoku-
         yield return Say("骸骨", "serihu_h1", "今から素人にも分かるように目印をつけてやる！！");
+        guideHighlighter?.ShowAll();
         onShowGuides?.Invoke();                             // (タイルに青赤黄の光が付く)
         yield return Say("主人公", "serihu_s1", "これは？");
         yield return Say("骸骨", "serihu_h1", "青が押すだけ、赤が引くだけで動かすんだ！");
@@ -153,6 +168,7 @@ public class OpeningScript : StoryPlayer
     // ════════════════════════ ステージ2の開始時 ════════════════════════
     IEnumerator Stage2Tutorial()
     {
+        guideHighlighter?.ShowAll();
         PlayBGM("suzurankeikoku");                          // {suzurankeikoku-
         yield return Say("主人公", "serihu_s2", "黄色のタイルがある…");   // (黄色の印ついてるタイルがある)
         yield return Say("骸骨", "serihu_h1", "これは押し引きどっちもできるやつだ！");
@@ -160,3 +176,4 @@ public class OpeningScript : StoryPlayer
         StopBGM("suzurankeikoku");                          // -suzurankeikoku}
     }
 }
+
