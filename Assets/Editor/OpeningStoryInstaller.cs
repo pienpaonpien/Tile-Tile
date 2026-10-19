@@ -17,12 +17,12 @@ public static class OpeningStoryInstaller
     private struct SoundMapping
     {
         public string key;
-        public string assetPath;
+        public string assetName; // Unity AudioClip name without extension
 
-        public SoundMapping(string key, string assetPath)
+        public SoundMapping(string key, string assetName)
         {
             this.key = key;
-            this.assetPath = assetPath;
+            this.assetName = assetName;
         }
     }
 
@@ -232,6 +232,27 @@ public static class OpeningStoryInstaller
         fade.transform.SetAsLastSibling();
     }
 
+    private static AudioClip FindAudioClipByName(string assetName)
+    {
+        if (string.IsNullOrEmpty(assetName))
+        {
+            return null;
+        }
+
+        string[] guids = AssetDatabase.FindAssets(assetName + " t:AudioClip", new[] { "Assets/BGM&SE" });
+        foreach (string guid in guids)
+        {
+            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            AudioClip clip = AssetDatabase.LoadAssetAtPath<AudioClip>(assetPath);
+            if (clip != null && string.Equals(clip.name, assetName, StringComparison.Ordinal))
+            {
+                return clip;
+            }
+        }
+
+        return null;
+    }
+
     private static void ConfigureOpeningScript(OpeningScript opening, OpeningScript.Part part,
         string nextScene, bool playOnStart, Image background, Image dialogueFrame,
         TMP_Text dialogueText, GameObject nextIndicator, Image fadeImage,
@@ -249,17 +270,17 @@ public static class OpeningStoryInstaller
 
         SoundMapping[] soundMappings =
         {
-            new SoundMapping("hidamarinomori", "Assets/BGM&SE/op_moriA.mp3"),
-            new SoundMapping("kazeniyurerukusaki1", null),
-            new SoundMapping("tsutinouewoaruku", "Assets/BGM&SE/syu_asiA.mp3"),
-            new SoundMapping("iwagamapputatsuniwareru", "Assets/BGM&SE/op_wareru.mp3"),
-            new SoundMapping("落下音", "Assets/BGM&SE/rakka.mp3"),
-            new SoundMapping("着地音", "Assets/BGM&SE/tyakuti.mp3"),
-            new SoundMapping("asufarutonouewoaruku2", "Assets/BGM&SE/syu_asiB.mp3"),
-            new SoundMapping("getadehashiru", "Assets/BGM&SE/hone_asi.mp3"),
-            new SoundMapping("jan", "Assets/BGM&SE/jan.mp3"),
-            new SoundMapping("suzurankeikoku", null),
-            new SoundMapping("doukutsuA", "Assets/BGM&SE/stageA.mp3")
+            new SoundMapping("hidamarinomori", "op_moriA"),
+            new SoundMapping("kazeniyurerukusaki1", "op_moriB"),
+            new SoundMapping("tsutinouewoaruku", "syu_asi"),
+            new SoundMapping("iwagamapputatsuniwareru", "op_wareru"),
+            new SoundMapping("落下音", "rakka"),
+            new SoundMapping("着地音", "tyakuti"),
+            new SoundMapping("asufarutonouewoaruku2", "syu_asi2"),
+            new SoundMapping("getadehashiru", "hone_asi"),
+            new SoundMapping("jan", "jan"),
+            new SoundMapping("suzurankeikoku", "op_tikaC"),
+            new SoundMapping("doukutsuA", "stageA")
         };
 
         SerializedObject serialized = new SerializedObject(opening);
@@ -287,9 +308,7 @@ public static class OpeningStoryInstaller
             SerializedProperty entry = sounds.GetArrayElementAtIndex(i);
             entry.FindPropertyRelative("key").stringValue = soundMappings[i].key;
             entry.FindPropertyRelative("clip").objectReferenceValue =
-                string.IsNullOrEmpty(soundMappings[i].assetPath)
-                    ? null
-                    : AssetDatabase.LoadAssetAtPath<AudioClip>(soundMappings[i].assetPath);
+                FindAudioClipByName(soundMappings[i].assetName);
         }
 
         SerializedProperty partProperty = serialized.FindProperty("part");

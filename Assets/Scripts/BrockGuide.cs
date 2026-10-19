@@ -93,6 +93,13 @@ public class BrockGuide : MonoBehaviour
 
         isFilled = true;
 
+        StageClearVisual stageAudio =
+            FindFirstObjectByType<StageClearVisual>();
+        if (stageAudio != null)
+        {
+            stageAudio.PlayTilePlacementSound();
+        }
+
         SetGuideBlocking(true);
 
         TryAdvanceStage();

@@ -139,8 +139,8 @@ public class OpeningScript : StoryPlayer
         yield return Say("主人公", "serihu_s2", "そうですか、では失礼");                // (立ち去ろうとする)
         yield return Say("骸骨", "serihu_h2", "ちょ、まてよ！この床のタイルを直してほしいんだ！");
         yield return Say("主人公", "serihu_s2", "いや、そもそも私、出口探さないといけないので、さようなら");
-        PlaySE("asufarutonouewoaruku2");                    // [asufarutonouewoaruku2]
-        yield return Say("骸骨", "serihu_h1", "待てって！[asufarutonouewoaruku2]ふーーーん、なるほどぉ？外に出たいのか。じゃあ、タイルを直してくれたら外に出るための方法を教えてやるってことで！");
+        PlaySE("getadehashiru");                            // [getadehashiru]
+        yield return Say("骸骨", "serihu_h1", "待てって！[getadehashiru]ふーーーん、なるほどぉ？外に出たいのか。じゃあ、タイルを直してくれたら外に出るための方法を教えてやるってことで！");
 
         SetBG("op_sa_h");                                   // 『op_sa_h.png』
         yield return Say("主人公", "serihu_s2", "...そうするしかないみたいですね");

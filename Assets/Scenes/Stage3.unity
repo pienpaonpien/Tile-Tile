@@ -2961,6 +2961,7 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::StageClearVisual
   clearImage: {fileID: 6667515014276263301, guid: c9f8c3bdf3039674b9911367d09a208e, type: 3}
+  tilePlacementClip: {fileID: 8300000, guid: ab5b34a17fb681d469d3735c248c82b8, type: 3}
   displayDuration: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
