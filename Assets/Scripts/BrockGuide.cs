@@ -4,16 +4,16 @@ using UnityEngine.SceneManagement;
 
 public class BrockGuide : MonoBehaviour
 {
-    [Header("--- ó‚¯•t‚¯‚éƒuƒƒbƒN”Ô† ---")]
+    [Header("--- å—ã‘ä»˜ã‘ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ç•ªå· ---")]
     public int targetBrockNum;
 
-    [Header("--- ‹z’…”»’è‚Ì‹–—e‹——£ ---")]
+    [Header("--- å¸ç€åˆ¤å®šã®è¨±å®¹è·é›¢ ---")]
     public float snapDistance = 0.3f;
 
-    [Header("--- ó‘ÔŠm”F—p ---")]
+    [Header("--- çŠ¶æ…‹ç¢ºèªç”¨ ---")]
     public bool isFilled;
 
-    [Header("--- Š®¬Œã‚É’Ê‰ß•s‰Â‚É‚·‚éCollider ---")]
+    [Header("--- å®Œæˆå¾Œã«é€šéä¸å¯ã«ã™ã‚‹Collider ---")]
     [SerializeField] private Collider2D guideCollider;
 
     [Header("Stage transition fade duration")]
@@ -126,8 +126,8 @@ public class BrockGuide : MonoBehaviour
         TryAdvanceStage();
 
         Debug.Log(
-            $"ƒuƒƒbƒN({brock.brockNum})‚ª"
-            + $"ƒKƒCƒh({targetBrockNum})‚É”z’u‚³‚ê‚Ü‚µ‚½"
+            $"ãƒ–ãƒ­ãƒƒã‚¯({brock.brockNum})ãŒ"
+            + $"ã‚¬ã‚¤ãƒ‰({targetBrockNum})ã«é…ç½®ã•ã‚Œã¾ã—ãŸ"
         );
 
         if (GameManager.Instance != null)
@@ -189,7 +189,7 @@ public class BrockGuide : MonoBehaviour
             case "Stage1": return "Stage2";
             case "Stage2": return "Stage3";
             case "Stage3": return "Stage4";
-            case "Stage4": return string.Empty;
+            case "Stage4": return "Result";
             default: return null;
         }
     }
@@ -222,11 +222,11 @@ public class BrockGuide : MonoBehaviour
         }
 
         /*
-         * ‹ó‚¢‚Ä‚¢‚éŠÔ:
-         * Trigger‚Æ‚µ‚Ä‹z’…”»’è‚Ég—p
+         * ç©ºã„ã¦ã„ã‚‹é–“:
+         * Triggerã¨ã—ã¦å¸ç€åˆ¤å®šã«ä½¿ç”¨
          *
-         * Š®¬Œã:
-         * ’ÊíCollider‚É‚µ‚Ä’Ê‰ß•s‰Â‚É‚·‚é
+         * å®Œæˆå¾Œ:
+         * é€šå¸¸Colliderã«ã—ã¦é€šéä¸å¯ã«ã™ã‚‹
          */
         guideCollider.isTrigger = !blocking;
     }
