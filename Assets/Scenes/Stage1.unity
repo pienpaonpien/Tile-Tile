@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 1
-  snapDistance: 3
+  snapDistance: 2
   isFilled: 1
   guideCollider: {fileID: 0}
   transitionFadeDuration: 0.5
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 2
-  snapDistance: 3
+  snapDistance: 2
   isFilled: 1
   guideCollider: {fileID: 0}
   transitionFadeDuration: 0.5
@@ -2629,12 +2629,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5989908786765821301, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.9003427
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989908786765821301, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.1209774
+      objectReference: {fileID: 0}
+    - target: {fileID: 5989908786765821301, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.11
+      value: 0.1848
       objectReference: {fileID: 0}
     - target: {fileID: 5989908786765821301, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.28
+      value: 0.1924
       objectReference: {fileID: 0}
     - target: {fileID: 6522814871285739735, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       propertyPath: m_Sprite
