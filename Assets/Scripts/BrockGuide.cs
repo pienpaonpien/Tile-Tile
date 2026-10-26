@@ -63,9 +63,17 @@ public class BrockGuide : MonoBehaviour
             return;
         }
 
+        Vector2 blockCenter = brock.BrockCollider2D != null
+     ? (Vector2)brock.BrockCollider2D.bounds.center
+     : (Vector2)brock.transform.position;
+
+        Vector2 guideCenter = guideCollider != null
+            ? (Vector2)guideCollider.bounds.center
+            : (Vector2)transform.position;
+
         float distance = Vector2.Distance(
-            brock.transform.position,
-            transform.position
+            blockCenter,
+            guideCenter
         );
 
         if (distance > snapDistance)
@@ -89,7 +97,20 @@ public class BrockGuide : MonoBehaviour
         }
 
         currentBrock = brock;
-        currentBrock.SetPlaced(transform.position);
+        Vector3 targetPosition = guideCollider != null
+     ? guideCollider.bounds.center
+     : transform.position;
+
+        if (currentBrock.BrockCollider2D != null)
+        {
+            Vector3 colliderOffset =
+                currentBrock.BrockCollider2D.bounds.center
+                - currentBrock.transform.position;
+
+            targetPosition -= colliderOffset;
+        }
+
+        currentBrock.SetPlaced(targetPosition);
 
         isFilled = true;
 
