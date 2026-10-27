@@ -137,9 +137,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 1
-  snapDistance: 2.03
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!50 &132460047
 Rigidbody2D:
   serializedVersion: 5
@@ -421,9 +422,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 3
-  snapDistance: 3
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!50 &469458187
 Rigidbody2D:
   serializedVersion: 5
@@ -1126,9 +1128,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 2
-  snapDistance: 2.03
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!1001 &897328667
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1356,6 +1359,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &991001004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332974407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6d8ab4f51c44fa595791e0ce227f4e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageClearVisual
+  clearImage: {fileID: 6667515014276263301, guid: 2fffecc07feefa848a3a6a9f6499fd57, type: 3}
+  tilePlacementClip: {fileID: 8300000, guid: ab5b34a17fb681d469d3735c248c82b8, type: 3}
+  displayDuration: 2
 --- !u!1001 &1113348599
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1567,6 +1585,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1313020400255549680, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+    - {fileID: 5711373367348822150, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2644146264045347618, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
@@ -1728,9 +1747,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 2
-  snapDistance: 2.03
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!1 &1306932982 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 802823314689358333, guid: 89b2b97588a91944b8443d566f283405, type: 3}
@@ -1822,9 +1842,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 3
-  snapDistance: 2.03
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!1 &1332974407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2149,6 +2170,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1313020400255549680, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+    - {fileID: 5711373367348822150, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6348588395330466386, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       insertIndex: -1
@@ -2382,6 +2404,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1313020400255549680, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+    - {fileID: 5711373367348822150, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6348588395330466386, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       insertIndex: -1
@@ -2789,9 +2812,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 2
-  snapDistance: 3
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
+  transitionFadeDuration: 0.5
 --- !u!1001 &663834640984088689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3205,21 +3229,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 132460047}
   m_SourcePrefab: {fileID: 100100000, guid: 89b2b97588a91944b8443d566f283405, type: 3}
---- !u!114 &991001004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332974407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6d8ab4f51c44fa595791e0ce227f4e6, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assembly-CSharp::StageClearVisual
-  clearImage: {fileID: 6667515014276263301, guid: 2fffecc07feefa848a3a6a9f6499fd57, type: 3}
-  tilePlacementClip: {fileID: 8300000, guid: ab5b34a17fb681d469d3735c248c82b8, type: 3}
-  displayDuration: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

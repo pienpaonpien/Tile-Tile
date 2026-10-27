@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 2
-  snapDistance: 1
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
   transitionFadeDuration: 0.5
@@ -323,7 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 1
-  snapDistance: 1
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
   transitionFadeDuration: 0.5
@@ -1644,6 +1644,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 7140113658568513873, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+    - {fileID: 5711373367348822150, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 8191376870421523056, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       insertIndex: -1
@@ -3329,6 +3330,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 7140113658568513873, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
     - {fileID: 1313020400255549680, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
+    - {fileID: 5711373367348822150, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6348588395330466386, guid: e15200b09a3f9aa4eae9b369364b64f0, type: 3}
       insertIndex: -1

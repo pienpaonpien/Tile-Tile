@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 1
-  snapDistance: 2
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
   transitionFadeDuration: 0.5
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 2
-  snapDistance: 2
+  snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
   transitionFadeDuration: 0.5
