@@ -2808,7 +2808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce43fbbba07f054eb760dbbe2387ede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
-  targetBrockNum: 2
+  targetBrockNum: 5
   snapDistance: 0.2
   isFilled: 1
   guideCollider: {fileID: 0}
