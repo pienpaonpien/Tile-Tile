@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ResultManager : MonoBehaviour
@@ -14,45 +16,27 @@ public class ResultManager : MonoBehaviour
 
     private void Start()
     {
-        int stage1 =
-            PlayerPrefs.GetInt("Stage1MoveCount", 0);
+        int stage1 = PlayerPrefs.GetInt("Stage1MoveCount", 0);
+        int stage2 = PlayerPrefs.GetInt("Stage2MoveCount", 0);
+        int stage3 = PlayerPrefs.GetInt("Stage3MoveCount", 0);
+        int stage4 = PlayerPrefs.GetInt("Stage4MoveCount", 0);
 
-        int stage2 =
-            PlayerPrefs.GetInt("Stage2MoveCount", 0);
-
-        int stage3 =
-            PlayerPrefs.GetInt("Stage3MoveCount", 0);
-
-        int stage4 =
-            PlayerPrefs.GetInt("Stage4MoveCount", 0);
-
-        int total =
-            stage1 + stage2 + stage3 + stage4;
+        int total = stage1 + stage2 + stage3 + stage4;
 
         if (stage1Text != null)
-        {
             stage1Text.text = stage1.ToString("00");
-        }
 
         if (stage2Text != null)
-        {
             stage2Text.text = stage2.ToString("00");
-        }
 
         if (stage3Text != null)
-        {
             stage3Text.text = stage3.ToString("00");
-        }
 
         if (stage4Text != null)
-        {
             stage4Text.text = stage4.ToString("00");
-        }
 
         if (totalText != null)
-        {
             totalText.text = total.ToString("000");
-        }
     }
 
     public void DeleteAllResultData()
@@ -63,5 +47,11 @@ public class ResultManager : MonoBehaviour
         PlayerPrefs.DeleteKey("Stage4MoveCount");
 
         PlayerPrefs.Save();
+    }
+
+    // タイトル画面へ戻る
+    public void ReturnToTitle()
+    {
+        SceneManager.LoadScene("TitleScene");
     }
 }
