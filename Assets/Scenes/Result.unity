@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 1894238611}
   - component: {fileID: 1894238610}
   - component: {fileID: 1894238609}
+  - component: {fileID: 1894238612}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -211,6 +212,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1894238612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1894238608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a176b0736c68b4a41995fcc72892071a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResultManager
+  stage1Text: {fileID: 0}
+  stage2Text: {fileID: 0}
+  stage3Text: {fileID: 0}
+  stage4Text: {fileID: 0}
+  totalText: {fileID: 0}
+  resultMessageText: {fileID: 0}
+  resultMessage: すべてのステージをクリア！
+  resultBackground: {fileID: 373767554, guid: f8df3037040bd99438d988614dfabe0e, type: 3}
+  resultBgm: {fileID: 8300000, guid: 14a8d666d6bb69b4c94cd3bf036161f4, type: 3}
+  confirmClip: {fileID: 8300000, guid: 4555a21135ab680419fc87abc97f41ca, type: 3}
+  returnPrompt: ENTER TO RETURN TO TITLE
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
