@@ -45,7 +45,7 @@ public abstract class StoryPlayer : MonoBehaviour
         new SoundEntry { key = "syu_asiB" },
         new SoundEntry { key = "hone_asi" },
         new SoundEntry { key = "jan" },
-        new SoundEntry { key = "op_tikaC" },
+        new SoundEntry { key = "kettei" },
         new SoundEntry { key = "stageA" },
     };
 
@@ -64,10 +64,13 @@ public abstract class StoryPlayer : MonoBehaviour
     readonly Dictionary<string, AudioClip> clipMap = new Dictionary<string, AudioClip>();
     readonly Dictionary<string, AudioSource> loopSource = new Dictionary<string, AudioSource>();
     readonly Dictionary<string, string> lastFrame = new Dictionary<string, string>();
+    readonly HashSet<string> seLoopKeys = new HashSet<string>();
 
     AudioSource seSource;
+    AudioSource confirmSource;
     string currentPlain = "";
     int consumedFrame = -1;
+    int lastConfirmSoundFrame = -1;
 
     protected virtual void Awake()
     {
@@ -101,6 +104,8 @@ public abstract class StoryPlayer : MonoBehaviour
 
         seSource = gameObject.AddComponent<AudioSource>();
         seSource.playOnAwake = false;
+        confirmSource = gameObject.AddComponent<AudioSource>();
+        confirmSource.playOnAwake = false;
 
         if (background == null || dialogueFrame == null || (tmpText == null && uiText == null))
             Debug.LogError("[StoryPlayer] Background / Dialogue Frame / テキスト（TMP か Text）を割り当ててください", this);
@@ -159,6 +164,7 @@ public abstract class StoryPlayer : MonoBehaviour
         if (nextIndicator != null) nextIndicator.SetActive(true);
         yield return WaitForAdvance();
         if (nextIndicator != null) nextIndicator.SetActive(false);
+        StopAllSE();
     }
 
     /// <summary>「次へ」が押されるまで待つ。</summary>
@@ -175,16 +181,42 @@ public abstract class StoryPlayer : MonoBehaviour
     {
 #if ENABLE_INPUT_SYSTEM
         var kb = UnityEngine.InputSystem.Keyboard.current;
-        if (kb != null && (kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame ||
-                           kb.spaceKey.wasPressedThisFrame || kb.zKey.wasPressedThisFrame))
-            return true;
+        if (kb != null)
+        {
+            if (kb.enterKey.wasPressedThisFrame || kb.numpadEnterKey.wasPressedThisFrame)
+            {
+                PlayConfirmSE();
+                return true;
+            }
+            if (kb.spaceKey.wasPressedThisFrame || kb.zKey.wasPressedThisFrame)
+                return true;
+        }
 #endif
 #if ENABLE_LEGACY_INPUT_MANAGER
-        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter) ||
-            Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            PlayConfirmSE();
+            return true;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z))
             return true;
 #endif
         return false;
+    }
+
+    public void PlayConfirmSE()
+    {
+        if (Time.frameCount == lastConfirmSoundFrame)
+        {
+            return;
+        }
+
+        lastConfirmSoundFrame = Time.frameCount;
+        AudioClip clip = FindClip("kettei");
+        if (clip != null && confirmSource != null)
+        {
+            confirmSource.PlayOneShot(clip, seVolume);
+        }
     }
 
     // 同じフレームに1回のキー入力を2か所で拾ってしまわないようにする
@@ -256,6 +288,7 @@ public abstract class StoryPlayer : MonoBehaviour
     /// <summary>セリフ枠（とテキスト）を隠す。</summary>
     protected void HideWindow()
     {
+        StopAllSE();
         if (dialogueFrame != null) dialogueFrame.gameObject.SetActive(false);
     }
 
@@ -352,14 +385,34 @@ public abstract class StoryPlayer : MonoBehaviour
     protected void StopBGM(string key) { StopLoop(key); }
 
     /// <summary>[SE- … -SE] の開始／終了（歩く音などのループSE）。</summary>
-    protected void PlaySELoop(string key) { PlayLoop(key, seVolume, true); }
-    protected void StopSELoop(string key) { StopLoop(key); }
+    protected void PlaySELoop(string key)
+    {
+        seLoopKeys.Add(key);
+        PlayLoop(key, seVolume, true);
+    }
+
+    protected void StopSELoop(string key)
+    {
+        StopLoop(key);
+        seLoopKeys.Remove(key);
+    }
+
+    protected void StopAllSE()
+    {
+        if (seSource != null) seSource.Stop();
+
+        foreach (string key in seLoopKeys)
+            StopLoop(key);
+        seLoopKeys.Clear();
+    }
 
     protected void StopAllSounds()
     {
         foreach (var src in loopSource.Values)
             if (src != null) src.Stop();
         if (seSource != null) seSource.Stop();
+        if (confirmSource != null) confirmSource.Stop();
+        seLoopKeys.Clear();
     }
 
     AudioClip FindClip(string key)
