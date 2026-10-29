@@ -962,6 +962,8 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 5f595a55294cb3846a4a210f2778e11c, type: 3}
   - key: stageA
     clip: {fileID: 8300000, guid: 14a8d666d6bb69b4c94cd3bf036161f4, type: 3}
+  - key: kettei
+    clip: {fileID: 8300000, guid: 4555a21135ab680419fc87abc97f41ca, type: 3}
   secondsPerChar: 0.04
   bgmVolume: 0.6
   seVolume: 1

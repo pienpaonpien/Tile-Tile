@@ -55,6 +55,11 @@ public class OpeningScript : StoryPlayer
     {
         SetBG("story_1");
     }
+
+    public void StartTitleBGM()
+    {
+        PlayBGM("op_moriA");
+    }
     void Start()
     {
         EnsureProtagonist();
@@ -139,7 +144,6 @@ public class OpeningScript : StoryPlayer
 
         // ───── 森の中 ─────
         SetBG("story_1");                                   // 『story_1.png』（タイトルでキーを押した後）
-        PlayBGM("op_moriA");                          // {op_moriA＋
         PlayBGM("op_moriB");                     //  op_moriB}
         yield return Wait(ForestWait);                      // 3秒後主人公表示
         if (protagonist != null) protagonist.SetActive(true);
@@ -203,15 +207,12 @@ public class OpeningScript : StoryPlayer
     // ════════════════════════ ステージ1の開始時 ════════════════════════
     IEnumerator Stage1Tutorial()
     {
-        PlayBGM("op_tikaC");                          // {op_tikaC-
         yield return Say("骸骨", "serihu_h1", "今から素人にも分かるように目印をつけてやる！！");
         guideHighlighter?.ShowAll();
         onShowGuides?.Invoke();                             // (タイルに青赤黄の光が付く)
         yield return Say("主人公", "serihu_s1", "これは？");
         yield return Say("骸骨", "serihu_h1", "青が押すだけ、赤が引くだけで動かすんだ！");
         yield return Say("主人公", "serihu_s1", "はーい");
-        StopBGM("op_tikaC");                          // -op_tikaC}
-
         // (ステージ開始) {stageA}
         // ※ステージBGMを GameManager 側で鳴らしている場合は、この1行を消してください
         PlayBGM("stageA");
@@ -221,11 +222,9 @@ public class OpeningScript : StoryPlayer
     IEnumerator Stage2Tutorial()
     {
         guideHighlighter?.ShowAll();
-        PlayBGM("op_tikaC");                          // {op_tikaC-
         yield return Say("主人公", "serihu_s2", "黄色のタイルがある…");   // (黄色の印ついてるタイルがある)
         yield return Say("骸骨", "serihu_h1", "これは押し引きどっちもできるやつだ！");
         yield return Say("主人公", "serihu_s1", "なるほど");
-        StopBGM("op_tikaC");                          // -op_tikaC}
     }
 }
 
