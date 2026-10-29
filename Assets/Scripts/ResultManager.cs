@@ -1,4 +1,3 @@
-﻿
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -13,6 +12,11 @@ public class ResultManager : MonoBehaviour
 
     [Header("--- 合計手数表示 ---")]
     [SerializeField] private TMP_Text totalText;
+
+    [Header("--- リザルトメッセージ ---")]
+    [SerializeField] private TMP_Text resultMessageText;
+    [SerializeField, TextArea(2, 4)]
+    private string resultMessage = "すべてのステージをクリア！";
 
     private void Start()
     {
@@ -37,8 +41,12 @@ public class ResultManager : MonoBehaviour
 
         if (totalText != null)
             totalText.text = total.ToString("000");
+
+        if (resultMessageText != null)
+            resultMessageText.text = resultMessage;
     }
 
+    // 手数の記録を削除する
     public void DeleteAllResultData()
     {
         PlayerPrefs.DeleteKey("Stage1MoveCount");
@@ -49,9 +57,16 @@ public class ResultManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    // 最初から遊ぶ
+    public void Retry()
+    {
+        DeleteAllResultData();
+        SceneManager.LoadScene("Stage1");
+    }
+
     // タイトル画面へ戻る
     public void ReturnToTitle()
     {
-        SceneManager.LoadScene("TitleScene");
+        SceneManager.LoadScene("Title");
     }
 }
