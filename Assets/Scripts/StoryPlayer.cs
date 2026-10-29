@@ -462,6 +462,14 @@ public abstract class StoryPlayer : MonoBehaviour
         SetFadeAlpha(to);
     }
 
+    protected void SetFadeColor(Color color)
+    {
+        if (fadeImage == null) return;
+
+        color.a = fadeImage.color.a;
+        fadeImage.color = color;
+    }
+
     void SetFadeAlpha(float a)
     {
         var c = fadeImage.color;

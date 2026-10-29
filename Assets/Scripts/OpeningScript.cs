@@ -21,7 +21,7 @@ using UnityEngine.UI;
 /// </summary>
 public class OpeningScript : StoryPlayer
 {
-    public enum Part { Opening, Stage1Tutorial, Stage2Tutorial }
+    public enum Part { Opening, Stage1Tutorial, Stage2Tutorial, Ending }
 
     [Header("再生設定")]
     [SerializeField] Part part = Part.Opening;     // このシーンで流す場面
@@ -129,6 +129,7 @@ public class OpeningScript : StoryPlayer
             case Part.Opening: yield return Opening(); break;
             case Part.Stage1Tutorial: yield return Stage1Tutorial(); break;
             case Part.Stage2Tutorial: yield return Stage2Tutorial(); break;
+            case Part.Ending: yield return Ending(); break;
         }
 
         HideAll();
@@ -225,6 +226,61 @@ public class OpeningScript : StoryPlayer
         yield return Say("主人公", "serihu_s2", "黄色のタイルがある…");   // (黄色の印ついてるタイルがある)
         yield return Say("骸骨", "serihu_h1", "これは押し引きどっちもできるやつだ！");
         yield return Say("主人公", "serihu_s1", "なるほど");
+    }
+
+    // ════════════════════════ ステージ4クリア後 ════════════════════════
+    IEnumerator Ending()
+    {
+        PlayBGM("op_tikaC");
+        SetBG("ed_s1_h1");
+
+        yield return Say("主人公", "serihu_s1", "……これで全部、直りましたよ");
+        yield return Say("骸骨", "serihu_h1", "おおー！！ 本当に全部直したのか！！");
+        yield return Say("主人公", "serihu_s2", "約束しましたからね");
+        yield return Say("骸骨", "serihu_h1", "いやぁ、助かったぜ！これでこの場所も元通りだ！");
+        yield return Say("主人公", "serihu_s2", "それで、出口はどこなんです？");
+        yield return Say("骸骨", "serihu_h1", "ああ、そうだったな");
+        yield return Say("骸骨", "serihu_h1", "……えーっと");
+        yield return Say("主人公", "serihu_s2", "……");
+
+        SetBG("ed_s2_h3");
+        yield return Say("骸骨", "serihu_h2", "……出口、どこだったっけ？");
+        yield return Say("主人公", "serihu_s4", "は？");
+
+        SetBG("ed_s2_h2");
+        yield return Say("骸骨", "serihu_h1", "いや、ほら……私、ここに埋葬されてから結構経ってるからさ☆[hone_kachi]");
+        yield return Say("主人公", "serihu_s4", "いやいやいや、そこ忘れちゃダメでしょ！");
+        yield return Say("骸骨", "serihu_h2", "まあまあ、落ち着けって！");
+        yield return Say("主人公", "serihu_s3", "こっちはずっと出口探してたんですけど！？");
+        yield return Say("骸骨", "serihu_h1", "ちゃんと覚えてるって！ほら、こっちだ！");
+        yield return Say("主人公", "serihu_s2", "本当でしょうね……");
+
+        HideWindow();
+        PlaySE("syu_asiB");
+        PlaySE("hone_asi");
+        SetFadeColor(Color.black);
+        yield return Fade(1f, 1f);
+        StopBGM("op_tikaC");
+
+        SetBG("story6");
+        yield return Fade(0f, 1f);
+        PlayBGM("ed_A");
+
+        yield return Say("骸骨", "serihu_h1", "ここをまっすぐ行けば、地上への道がある！");
+        yield return Say("主人公", "serihu_s2", "……本当にありましたね");
+        yield return Say("骸骨", "serihu_h1", "だろ？");
+        yield return Say("主人公", "serihu_s2", "まあ、タイルを直した甲斐はあったみたいですね");
+        yield return Say("骸骨", "serihu_h1", "ありがとな！お前が来てくれて助かったぜ！");
+        yield return Say("主人公", "serihu_s1", "こちらこそ、出口を教えてもらえて助かりました");
+        yield return Say("骸骨", "serihu_h1", "じゃあな！また落ちてくることがあったらよろしくな☆");
+        yield return Say("主人公", "serihu_s3", "二度と落ちてきたくないです");
+        yield return Say("骸骨", "serihu_h1", "ははは！そりゃそうか！");
+
+        HideWindow();
+        PlaySE("syu_asiB");
+        SetFadeColor(Color.white);
+        yield return Fade(1f, 1.5f);
+        StopBGM("ed_A");
     }
 }
 
