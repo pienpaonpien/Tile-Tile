@@ -46,6 +46,15 @@ public class OpeningScript : StoryPlayer
     const float QuakeTime = 1.5f;     // 地面が揺れている時間
     const float WalkTime = 2f;        // 歩きながら場面が切り替わる時間
 
+    public RectTransform TitleCanvasRoot
+    {
+        get { return background != null ? background.transform.parent as RectTransform : null; }
+    }
+
+    public void ShowTitleBackground()
+    {
+        SetBG("story_1");
+    }
     void Start()
     {
         EnsureProtagonist();
@@ -219,4 +228,5 @@ public class OpeningScript : StoryPlayer
         StopBGM("suzurankeikoku");                          // -suzurankeikoku}
     }
 }
+
 
