@@ -24,7 +24,7 @@ public abstract class StoryPlayer : MonoBehaviour
 
     // ───────────── Inspector ─────────────
     [Header("UI")]
-    [SerializeField] Image background;          // 背景・イラスト（story_1 / op_s1 など）
+    [SerializeField] protected Image background;          // 背景・イラスト（story_1 / op_s1 など）
     [SerializeField] Image dialogueFrame;       // セリフ枠（serihu_*）。テキストはこの子にする
     [SerializeField] TMP_Text tmpText;          // セリフのテキスト（TextMeshPro）
     [SerializeField] Text uiText;               // セリフのテキスト（旧Text）※どちらか一方でOK
@@ -376,7 +376,7 @@ public abstract class StoryPlayer : MonoBehaviour
         for (float t = 0f; t < seconds; t += Time.unscaledDeltaTime)
         {
             float damp = 1f - t / seconds;
-            rt.anchoredPosition = origin + Random.insideUnitCircle * power * damp;
+            rt.anchoredPosition = origin + UnityEngine.Random.insideUnitCircle * power * damp;
             yield return null;
         }
         rt.anchoredPosition = origin;
