@@ -194,6 +194,8 @@ MonoBehaviour:
   inputH: 0
   inputV: 0
   handCollider: {fileID: 6899054878181657407}
+  tileMoveClip: {fileID: 8300000, guid: 52d5d2cb22001c54193b568c4832397a, type: 3}
+  tileMoveVolume: 1
   playerCollider: {fileID: 4311673358134282926}
 --- !u!50 &8434209457106772945
 Rigidbody2D:

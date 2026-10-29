@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -71,8 +72,25 @@ public abstract class StoryPlayer : MonoBehaviour
     protected virtual void Awake()
     {
         if (sprites != null)
-            foreach (var s in sprites)
-                if (s != null) spriteMap[s.name] = s;
+        {
+            foreach (var sprite in sprites)
+            {
+                if (sprite == null)
+                {
+                    continue;
+                }
+
+                spriteMap[sprite.name] = sprite;
+                if (sprite.name.EndsWith("_0", StringComparison.Ordinal))
+                {
+                    string assetName = sprite.name.Substring(
+                        0,
+                        sprite.name.Length - 2
+                    );
+                    spriteMap[assetName] = sprite;
+                }
+            }
+        }
 
         if (sounds != null)
             foreach (var e in sounds)

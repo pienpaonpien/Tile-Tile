@@ -943,23 +943,23 @@ MonoBehaviour:
   - key: hidamarinomori
     clip: {fileID: 8300000, guid: 67188d5ac04d99c46bcfc572560226e6, type: 3}
   - key: kazeniyurerukusaki1
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9a6a3b66436e3e54c886fbd359b404f8, type: 3}
   - key: tsutinouewoaruku
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 9664d06b0a3e976498a8ab7028002ff2, type: 3}
   - key: iwagamapputatsuniwareru
     clip: {fileID: 8300000, guid: d171120285515654eb74b59f69236a06, type: 3}
   - key: "\u843D\u4E0B\u97F3"
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 8f552ad43bd329f4786b71c0b62b8888, type: 3}
   - key: "\u7740\u5730\u97F3"
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 0da55f766eabb5c46b89f26bedcfb97b, type: 3}
   - key: asufarutonouewoaruku2
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: debe9a0252bc44e458c4ce1182248501, type: 3}
   - key: getadehashiru
     clip: {fileID: 8300000, guid: ca615858bc721704692b989273598492, type: 3}
   - key: jan
     clip: {fileID: 8300000, guid: bdc3b681e7b2f5c4abb3e9f5073e6098, type: 3}
   - key: suzurankeikoku
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5f595a55294cb3846a4a210f2778e11c, type: 3}
   - key: doukutsuA
     clip: {fileID: 8300000, guid: 14a8d666d6bb69b4c94cd3bf036161f4, type: 3}
   secondsPerChar: 0.04

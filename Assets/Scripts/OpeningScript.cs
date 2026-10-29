@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /// <summary>
 /// 脚本メモをそのままC#にしたもの。メモの記号との対応：
@@ -29,6 +30,7 @@ public class OpeningScript : StoryPlayer
 
     [Header("演出用（任意）")]
     [SerializeField] GameObject protagonist;       // story_1 の上に出す歩く主人公（空でもOK）
+    [SerializeField] Sprite protagonistSprite;      // タイトル導入で表示する主人公画像
 
     [Header("ステージ操作")]
     [SerializeField] StoryInputGate gameplayInputGate;
@@ -46,7 +48,48 @@ public class OpeningScript : StoryPlayer
 
     void Start()
     {
+        EnsureProtagonist();
         if (playOnStart) Play(part);
+    }
+
+    void EnsureProtagonist()
+    {
+        if (part != Part.Opening || protagonist != null || protagonistSprite == null || background == null)
+        {
+            return;
+        }
+
+        Transform storyCanvas = background.transform.parent;
+        if (storyCanvas == null)
+        {
+            Debug.LogWarning("[OpeningScript] StoryBackground の親 Canvas が設定されていません。", this);
+            return;
+        }
+
+        GameObject character = new GameObject(
+            "StoryProtagonist",
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(Image)
+        );
+        character.transform.SetParent(storyCanvas, false);
+
+        RectTransform rectTransform = (RectTransform)character.transform;
+        rectTransform.anchorMin = new Vector2(0.5f, 0f);
+        rectTransform.anchorMax = new Vector2(0.5f, 0f);
+        rectTransform.pivot = new Vector2(0.5f, 0f);
+        rectTransform.anchoredPosition = new Vector2(0f, 24f);
+        rectTransform.sizeDelta = new Vector2(340f, 340f);
+        rectTransform.localScale = Vector3.one;
+
+        Image image = character.GetComponent<Image>();
+        image.sprite = protagonistSprite;
+        image.preserveAspect = true;
+        image.raycastTarget = false;
+
+        character.transform.SetSiblingIndex(background.transform.GetSiblingIndex() + 1);
+        character.SetActive(false);
+        protagonist = character;
     }
 
     /// <summary>外部（GameManager など）から呼ぶ用。例：opening.Play(OpeningScript.Part.Stage2Tutorial);</summary>
@@ -139,7 +182,7 @@ public class OpeningScript : StoryPlayer
         yield return Say("主人公", "serihu_s2", "そうですか、では失礼");                // (立ち去ろうとする)
         yield return Say("骸骨", "serihu_h2", "ちょ、まてよ！この床のタイルを直してほしいんだ！");
         yield return Say("主人公", "serihu_s2", "いや、そもそも私、出口探さないといけないので、さようなら");
-        PlaySE("getadehashiru");                            // [getadehashiru]
+        PlaySE("asufarutonouewoaruku2");                    // [syu_asiB]
         yield return Say("骸骨", "serihu_h1", "待てって！[getadehashiru]ふーーーん、なるほどぉ？外に出たいのか。じゃあ、タイルを直してくれたら外に出るための方法を教えてやるってことで！");
 
         SetBG("op_sa_h");                                   // 『op_sa_h.png』

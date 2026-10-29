@@ -272,16 +272,20 @@ public static class OpeningStoryInstaller
         {
             new SoundMapping("hidamarinomori", "op_moriA"),
             new SoundMapping("kazeniyurerukusaki1", "op_moriB"),
-            new SoundMapping("tsutinouewoaruku", "syu_asi"),
+            new SoundMapping("tsutinouewoaruku", "syu_asiA"),
             new SoundMapping("iwagamapputatsuniwareru", "op_wareru"),
             new SoundMapping("落下音", "rakka"),
             new SoundMapping("着地音", "tyakuti"),
-            new SoundMapping("asufarutonouewoaruku2", "syu_asi2"),
+            new SoundMapping("asufarutonouewoaruku2", "syu_asiB"),
             new SoundMapping("getadehashiru", "hone_asi"),
             new SoundMapping("jan", "jan"),
             new SoundMapping("suzurankeikoku", "op_tikaC"),
             new SoundMapping("doukutsuA", "stageA")
         };
+
+        Sprite protagonistSprite = part == OpeningScript.Part.Opening
+            ? AssetDatabase.LoadAssetAtPath<Sprite>("Assets/image/ippannjinA_.png")
+            : null;
 
         SerializedObject serialized = new SerializedObject(opening);
         serialized.Update();
@@ -293,6 +297,7 @@ public static class OpeningStoryInstaller
         SetObject(serialized, "nextIndicator", nextIndicator);
         SetObject(serialized, "gameplayInputGate", inputGate);
         SetObject(serialized, "guideHighlighter", guideHighlighter);
+        SetObject(serialized, "protagonistSprite", protagonistSprite);
 
         SerializedProperty spriteArray = serialized.FindProperty("sprites");
         spriteArray.arraySize = sprites.Length;

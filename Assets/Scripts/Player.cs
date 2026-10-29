@@ -23,6 +23,13 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _holdBrock;
 
+    [Header("--- ブロック移動音 ---")]
+    [SerializeField]
+    private AudioClip tileMoveClip;
+
+    [SerializeField, Range(0f, 1f)]
+    private float tileMoveVolume = 1f;
+
     [Header("--- 手の当たり判定 ---")]
     [SerializeField]
     private GameObject handCollider;
@@ -37,6 +44,9 @@ public class Player : MonoBehaviour
     private bool flipXWhenFacingLeft = true;
 
     private SpriteRenderer spriteRenderer;
+    private AudioSource tileMoveAudioSource;
+    private Vector3 previousHeldBrockPosition;
+    private bool hasPreviousHeldBrockPosition;
 
     public float inputH;
     public float inputV;
@@ -127,6 +137,8 @@ public class Player : MonoBehaviour
             else if (wasHolding && !value)
             {
                 lockedAxis = 0;
+                StopTileMoveSound();
+                hasPreviousHeldBrockPosition = false;
             }
         }
     }
@@ -140,6 +152,16 @@ public class Player : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        if (tileMoveClip != null)
+        {
+            tileMoveAudioSource = gameObject.AddComponent<AudioSource>();
+            tileMoveAudioSource.clip = tileMoveClip;
+            tileMoveAudioSource.loop = true;
+            tileMoveAudioSource.playOnAwake = false;
+            tileMoveAudioSource.spatialBlend = 0f;
+            tileMoveAudioSource.volume = tileMoveVolume;
+        }
 
         spriteRenderer = GetComponent<SpriteRenderer>();
 
@@ -461,6 +483,8 @@ public class Player : MonoBehaviour
      */
     private void LateUpdate()
     {
+        UpdateTileMoveSound();
+
         Vector3 scale = transform.localScale;
 
         if (scale.x < 0f)
@@ -489,6 +513,49 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void UpdateTileMoveSound()
+    {
+        if (tileMoveAudioSource == null)
+        {
+            return;
+        }
+
+        if (!HoldBrock || heldBrock == null)
+        {
+            StopTileMoveSound();
+            hasPreviousHeldBrockPosition = false;
+            return;
+        }
+
+        Vector3 currentPosition = heldBrock.transform.position;
+        bool blockMoved =
+            hasPreviousHeldBrockPosition &&
+            (currentPosition - previousHeldBrockPosition).sqrMagnitude > 0.000001f;
+
+        if (blockMoved)
+        {
+            if (!tileMoveAudioSource.isPlaying)
+            {
+                tileMoveAudioSource.Play();
+            }
+        }
+        else
+        {
+            StopTileMoveSound();
+        }
+
+        previousHeldBrockPosition = currentPosition;
+        hasPreviousHeldBrockPosition = true;
+    }
+
+    private void StopTileMoveSound()
+    {
+        if (tileMoveAudioSource != null && tileMoveAudioSource.isPlaying)
+        {
+            tileMoveAudioSource.Stop();
+        }
+    }
+
     private void FixedUpdate()
     {
         if (rb == null)
@@ -506,6 +573,12 @@ public class Player : MonoBehaviour
 
         rb.linearVelocity =
             movement * PlayerMoveSpeed;
+    }
+
+    private void OnDisable()
+    {
+        StopTileMoveSound();
+        hasPreviousHeldBrockPosition = false;
     }
 
     private void OnDestroy()
