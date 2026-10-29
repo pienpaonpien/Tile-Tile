@@ -1318,27 +1318,27 @@ MonoBehaviour:
   - {fileID: -1980086029, guid: ce7907cec5d2e7141bf1358388d97726, type: 3}
   - {fileID: 1453372977, guid: d4e41652525430b47b6a178218c06d17, type: 3}
   sounds:
-  - key: hidamarinomori
+  - key: op_moriA
     clip: {fileID: 8300000, guid: 67188d5ac04d99c46bcfc572560226e6, type: 3}
-  - key: kazeniyurerukusaki1
+  - key: op_moriB
     clip: {fileID: 8300000, guid: 9a6a3b66436e3e54c886fbd359b404f8, type: 3}
-  - key: tsutinouewoaruku
+  - key: syu_asiA
     clip: {fileID: 8300000, guid: 9664d06b0a3e976498a8ab7028002ff2, type: 3}
-  - key: iwagamapputatsuniwareru
+  - key: op_wareru
     clip: {fileID: 8300000, guid: d171120285515654eb74b59f69236a06, type: 3}
-  - key: "\u843D\u4E0B\u97F3"
+  - key: rakka
     clip: {fileID: 8300000, guid: 8f552ad43bd329f4786b71c0b62b8888, type: 3}
-  - key: "\u7740\u5730\u97F3"
+  - key: tyakuti
     clip: {fileID: 8300000, guid: 0da55f766eabb5c46b89f26bedcfb97b, type: 3}
-  - key: asufarutonouewoaruku2
+  - key: syu_asiB
     clip: {fileID: 8300000, guid: debe9a0252bc44e458c4ce1182248501, type: 3}
-  - key: getadehashiru
+  - key: hone_asi
     clip: {fileID: 8300000, guid: ca615858bc721704692b989273598492, type: 3}
   - key: jan
     clip: {fileID: 8300000, guid: bdc3b681e7b2f5c4abb3e9f5073e6098, type: 3}
-  - key: suzurankeikoku
+  - key: op_tikaC
     clip: {fileID: 8300000, guid: 5f595a55294cb3846a4a210f2778e11c, type: 3}
-  - key: doukutsuA
+  - key: stageA
     clip: {fileID: 8300000, guid: 14a8d666d6bb69b4c94cd3bf036161f4, type: 3}
   secondsPerChar: 0.04
   bgmVolume: 0.6
@@ -1401,7 +1401,7 @@ RectTransform:
   m_GameObject: {fileID: 1111620164}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1901634026}
@@ -2480,7 +2480,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2a7bd20655166459a0e60fa0430f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JapaneseTMPFontBootstrap
-  fontFamily: Noto Sans JP
+  fontFilePath: '%LOCALAPPDATA%/Microsoft/Windows/Fonts/KH-Dot-Akihabara-16.ttf'
+  fontFamily: KH Dot Akihabara 16
   fontStyle: Regular
   samplingPointSize: 90
 --- !u!114 &1970021087
@@ -2652,7 +2653,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e2a7bd20655166459a0e60fa0430f0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JapaneseTMPFontBootstrap
-  fontFamily: Noto Sans JP
+  fontFilePath: '%LOCALAPPDATA%/Microsoft/Windows/Fonts/KH-Dot-Akihabara-16.ttf'
+  fontFamily: KH Dot Akihabara 16
   fontStyle: Regular
   samplingPointSize: 90
 --- !u!222 &2007542372

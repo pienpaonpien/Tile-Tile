@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -36,17 +36,17 @@ public abstract class StoryPlayer : MonoBehaviour
     [SerializeField]
     List<SoundEntry> sounds = new List<SoundEntry>
     {
-        new SoundEntry { key = "hidamarinomori" },
-        new SoundEntry { key = "kazeniyurerukusaki1" },
-        new SoundEntry { key = "tsutinouewoaruku" },
-        new SoundEntry { key = "iwagamapputatsuniwareru" },
-        new SoundEntry { key = "落下音" },
-        new SoundEntry { key = "着地音" },
-        new SoundEntry { key = "asufarutonouewoaruku2" },
-        new SoundEntry { key = "getadehashiru" },
+        new SoundEntry { key = "op_moriA" },
+        new SoundEntry { key = "op_moriB" },
+        new SoundEntry { key = "syu_asiA" },
+        new SoundEntry { key = "op_wareru" },
+        new SoundEntry { key = "rakka" },
+        new SoundEntry { key = "tyakuti" },
+        new SoundEntry { key = "syu_asiB" },
+        new SoundEntry { key = "hone_asi" },
         new SoundEntry { key = "jan" },
-        new SoundEntry { key = "suzurankeikoku" },
-        new SoundEntry { key = "doukutsuA" },
+        new SoundEntry { key = "op_tikaC" },
+        new SoundEntry { key = "stageA" },
     };
 
     [Header("設定")]
@@ -71,6 +71,8 @@ public abstract class StoryPlayer : MonoBehaviour
 
     protected virtual void Awake()
     {
+        EnsureStoryCanvasScale();
+
         if (sprites != null)
         {
             foreach (var sprite in sprites)
@@ -204,6 +206,51 @@ public abstract class StoryPlayer : MonoBehaviour
             else Debug.LogWarning("[StoryPlayer] セリフ枠の画像が見つかりません: " + frame, this);
         }
         dialogueFrame.gameObject.SetActive(true);
+
+        if (tmpText != null)
+        {
+            tmpText.gameObject.SetActive(true);
+            tmpText.enabled = true;
+            tmpText.transform.SetAsLastSibling();
+
+            JapaneseTMPFontBootstrap fontBootstrap = tmpText.GetComponent<JapaneseTMPFontBootstrap>();
+            if (fontBootstrap != null)
+            {
+                fontBootstrap.EnsureFont();
+            }
+            else if (tmpText.font == null)
+            {
+                Debug.LogError("[StoryPlayer] 字幕のTMP_FontAssetが未設定で、フォント初期化コンポーネントもありません。", tmpText);
+            }
+        }
+        else if (uiText != null)
+        {
+            uiText.gameObject.SetActive(true);
+            uiText.enabled = true;
+            uiText.transform.SetAsLastSibling();
+        }
+    }
+
+    void EnsureStoryCanvasScale()
+    {
+        if (background == null)
+        {
+            return;
+        }
+
+        Canvas storyCanvas = background.GetComponentInParent<Canvas>();
+        if (storyCanvas == null)
+        {
+            return;
+        }
+
+        Transform canvasTransform = storyCanvas.transform;
+        Vector3 scale = canvasTransform.localScale;
+        if (Mathf.Abs(scale.x) < 0.0001f || Mathf.Abs(scale.y) < 0.0001f || Mathf.Abs(scale.z) < 0.0001f)
+        {
+            canvasTransform.localScale = Vector3.one;
+            Debug.LogWarning("[StoryPlayer] StoryCanvas のスケールが 0 だったため、(1, 1, 1) に修正しました。", storyCanvas);
+        }
     }
 
     /// <summary>セリフ枠（とテキスト）を隠す。</summary>
@@ -223,7 +270,9 @@ public abstract class StoryPlayer : MonoBehaviour
             tmpText.ForceMeshUpdate();
             int count = tmpText.textInfo.characterCount;
             tmpText.maxVisibleCharacters = 0;
-            return count;
+            // TMP can report zero before its dynamic font atlas has populated Japanese glyphs.
+            // Keep the typewriter running so the text becomes visible as soon as the font is ready.
+            return count > 0 || string.IsNullOrEmpty(plain) ? count : plain.Length;
         }
         ShowChars(0);
         return plain.Length;
@@ -251,7 +300,10 @@ public abstract class StoryPlayer : MonoBehaviour
         {
             sb.Append(raw, last, m.Index - last);
             int visible = RichRegex.Replace(sb.ToString(), "").Length;   // <color> などのタグは数えない
-            cues.Add(new Cue { pos = visible, key = m.Groups[1].Value });
+            string key = m.Groups[1].Value.Trim();
+            if (key.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase))
+                key = key.Substring(0, key.Length - 4);
+            cues.Add(new Cue { pos = visible, key = key });
             last = m.Index + m.Length;
         }
         sb.Append(raw, last, raw.Length - last);

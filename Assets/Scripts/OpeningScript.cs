@@ -139,29 +139,29 @@ public class OpeningScript : StoryPlayer
 
         // ───── 森の中 ─────
         SetBG("story_1");                                   // 『story_1.png』（タイトルでキーを押した後）
-        PlayBGM("hidamarinomori");                          // {hidamarinomori＋
-        PlayBGM("kazeniyurerukusaki1");                     //  kazeniyurerukusaki1}
+        PlayBGM("op_moriA");                          // {op_moriA＋
+        PlayBGM("op_moriB");                     //  op_moriB}
         yield return Wait(ForestWait);                      // 3秒後主人公表示
         if (protagonist != null) protagonist.SetActive(true);
 
-        PlaySELoop("tsutinouewoaruku");                     // [tsutinouewoaruku-
+        PlaySELoop("syu_asiA");                     // [syu_asiA-
         yield return Say("主人公", "serihu_s2", "旅行にきたのに道に迷うとか最悪...");   // (森林の中を歩いている)
-        StopSELoop("tsutinouewoaruku");                     // -tsutinouewoaruku]
+        StopSELoop("syu_asiA");                     // -syu_asiA]
         if (protagonist != null) protagonist.SetActive(false);
 
         // ───── 地面が割れて穴に落ちる ─────
-        StopBGM("hidamarinomori");                          // {hidamarinomori＋kazeniyurerukusaki1}停止
-        StopBGM("kazeniyurerukusaki1");
+        StopBGM("op_moriA");                          // {op_moriA＋op_moriB}停止
+        StopBGM("op_moriB");
         HideWindow();
-        PlaySE("iwagamapputatsuniwareru");                  // [iwagamapputatsuniwareru]
+        PlaySE("op_wareru");                  // [op_wareru]
         yield return Shake(QuakeTime);                      // (なんか地面揺れて…)
         SetBG("story_2");                                   // 『story_2.png』
         yield return Say("主人公", "serihu_s4", "んぎゃああああ！！！");
 
         HideWindow();
-        PlaySE("落下音");                                    // [落下音]
+        PlaySE("rakka");                                    // [rakka]
         yield return Fade(1f, 1.5f);                        // 『1.5秒かけて画面真っ黒に』
-        PlaySE("着地音");                                    // [着地音]
+        PlaySE("tyakuti");                                    // [tyakuti]
         SetBG("story_3");                                   // 『story_3.png』（ついた）
         yield return Fade(0f, 1f);                          // 『1秒かけて黒い画面から』
 
@@ -170,29 +170,29 @@ public class OpeningScript : StoryPlayer
         yield return Say("主人公", "serihu_s2", "まあいいや、どこかに出口はあるはず");
 
         HideWindow();
-        PlaySELoop("asufarutonouewoaruku2");                // [asufarutonouewoaruku2-
+        PlaySELoop("syu_asiB");                // [syu_asiB-
         yield return Wait(WalkTime / 2);
         SetBG("op_s1");                                     // 『op_s1.png』
         yield return Wait(WalkTime / 2);
-        StopSELoop("asufarutonouewoaruku2");                // -asufarutonouewoaruku2]
+        StopSELoop("syu_asiB");                // -syu_asiB]
 
         // ───── 骸骨との出会い ─────
         yield return Say("骸骨", "serihu_h1", "おーいそこの人ー！");
-        PlaySE("getadehashiru");                            // [getadehashiru]
+        PlaySE("hone_asi");                            // [hone_asi.mp3]
         yield return Say("主人公", "serihu_s3", "え？");
         SetBG("op_s1_h1");                                  // 『op_s1_h1.png』
         yield return Say("骸骨", "serihu_h1", "はぁ、疲れた、骨が折れるぜ...");        // (走ってくる)
         yield return Say("主人公", "serihu_s2", "...なんですかあなた");
         SetBG("op_s_h");                                    // 『op_s_h.png』
         // 枠の指定がメモに無かったので null（＝骸骨が前回使った serihu_h1 のまま）
-        yield return Say("骸骨", null, "私はここに埋葬された人間さ☆[jan]ここって地下だろ？お前が落ちた衝撃で起きたんだよ");
+        yield return Say("骸骨", null, "私はここに埋葬された人間さ☆[jan.mp3]ここって地下だろ？お前が落ちた衝撃で起きたんだよ");
 
         SetBG("op_s__h1");                                  // 『op_s__h1.png』
         yield return Say("主人公", "serihu_s2", "そうですか、では失礼");                // (立ち去ろうとする)
         yield return Say("骸骨", "serihu_h2", "ちょ、まてよ！この床のタイルを直してほしいんだ！");
         yield return Say("主人公", "serihu_s2", "いや、そもそも私、出口探さないといけないので、さようなら");
-        PlaySE("asufarutonouewoaruku2");                    // [syu_asiB]
-        yield return Say("骸骨", "serihu_h1", "待てって！[getadehashiru]ふーーーん、なるほどぉ？外に出たいのか。じゃあ、タイルを直してくれたら外に出るための方法を教えてやるってことで！");
+        PlaySE("syu_asiB");                    // [syu_asiB]
+        yield return Say("骸骨", "serihu_h1", "待てって！[hone_asi.mp3]ふーーーん、なるほどぉ？外に出たいのか。じゃあ、タイルを直してくれたら外に出るための方法を教えてやるってことで！");
 
         SetBG("op_sa_h");                                   // 『op_sa_h.png』
         yield return Say("主人公", "serihu_s2", "...そうするしかないみたいですね");
@@ -203,29 +203,29 @@ public class OpeningScript : StoryPlayer
     // ════════════════════════ ステージ1の開始時 ════════════════════════
     IEnumerator Stage1Tutorial()
     {
-        PlayBGM("suzurankeikoku");                          // {suzurankeikoku-
+        PlayBGM("op_tikaC");                          // {op_tikaC-
         yield return Say("骸骨", "serihu_h1", "今から素人にも分かるように目印をつけてやる！！");
         guideHighlighter?.ShowAll();
         onShowGuides?.Invoke();                             // (タイルに青赤黄の光が付く)
         yield return Say("主人公", "serihu_s1", "これは？");
         yield return Say("骸骨", "serihu_h1", "青が押すだけ、赤が引くだけで動かすんだ！");
         yield return Say("主人公", "serihu_s1", "はーい");
-        StopBGM("suzurankeikoku");                          // -suzurankeikoku}
+        StopBGM("op_tikaC");                          // -op_tikaC}
 
-        // (ステージ開始) {doukutsuA}
+        // (ステージ開始) {stageA}
         // ※ステージBGMを GameManager 側で鳴らしている場合は、この1行を消してください
-        PlayBGM("doukutsuA");
+        PlayBGM("stageA");
     }
 
     // ════════════════════════ ステージ2の開始時 ════════════════════════
     IEnumerator Stage2Tutorial()
     {
         guideHighlighter?.ShowAll();
-        PlayBGM("suzurankeikoku");                          // {suzurankeikoku-
+        PlayBGM("op_tikaC");                          // {op_tikaC-
         yield return Say("主人公", "serihu_s2", "黄色のタイルがある…");   // (黄色の印ついてるタイルがある)
         yield return Say("骸骨", "serihu_h1", "これは押し引きどっちもできるやつだ！");
         yield return Say("主人公", "serihu_s1", "なるほど");
-        StopBGM("suzurankeikoku");                          // -suzurankeikoku}
+        StopBGM("op_tikaC");                          // -op_tikaC}
     }
 }
 

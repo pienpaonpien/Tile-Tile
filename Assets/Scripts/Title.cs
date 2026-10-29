@@ -36,6 +36,7 @@ public class Title : MonoBehaviour
         {
             openingStory.ShowTitleBackground();
             CreateTitleLayers();
+            ShowIdleTitleFrame();
         }
     }
 
@@ -120,6 +121,18 @@ public class Title : MonoBehaviour
             layerObject.SetActive(false);
             titleLayers[i] = image;
         }
+    }
+
+    private void ShowIdleTitleFrame()
+    {
+        if (!HasTitleFrames())
+        {
+            return;
+        }
+
+        SetFrame(titleLayers[0], titleFrames[0]);
+        SetAlpha(titleLayers[0], 1f);
+        titleLayers[0].gameObject.SetActive(true);
     }
 
     private IEnumerator PlayTitleSequence()
