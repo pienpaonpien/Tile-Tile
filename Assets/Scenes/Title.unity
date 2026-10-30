@@ -547,7 +547,7 @@ RectTransform:
   m_GameObject: {fileID: 1336487808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1495550350}
@@ -663,6 +663,11 @@ MonoBehaviour:
   frameHoldSeconds: 0.7
   transitionSeconds: 0.35
   finalHoldSeconds: 0.8
+  startPrompt: -ENTER to START-
+  startPromptBottomOffset: 95
+  promptFadeSeconds: 0.32
+  promptHoldSeconds: 0.18
+  promptDimAlpha: 0.18
 --- !u!212 &1480047534
 SpriteRenderer:
   serializedVersion: 2
