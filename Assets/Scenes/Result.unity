@@ -230,11 +230,11 @@ MonoBehaviour:
   stage4Text: {fileID: 0}
   totalText: {fileID: 0}
   resultMessageText: {fileID: 0}
-  resultMessage: すべてのステージをクリア！
-  resultBackground: {fileID: 373767554, guid: f8df3037040bd99438d988614dfabe0e, type: 3}
+  resultMessage: 手数
+  resultBackground: {fileID: 1304183842, guid: 65ec6322909d5c543b90de411f69aba5, type: 3}
   resultBgm: {fileID: 8300000, guid: 14a8d666d6bb69b4c94cd3bf036161f4, type: 3}
   confirmClip: {fileID: 8300000, guid: 4555a21135ab680419fc87abc97f41ca, type: 3}
-  returnPrompt: ENTER TO RETURN TO TITLE
+  returnPrompt: -ENTER TO RETURN  TO TITLE-
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

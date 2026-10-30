@@ -2825,7 +2825,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BrockGuide
   targetBrockNum: 5
-  snapDistance: 0.2
+  snapDistance: 0.3
   isFilled: 1
   guideCollider: {fileID: 0}
   transitionFadeDuration: 0.5
