@@ -547,7 +547,7 @@ RectTransform:
   m_GameObject: {fileID: 1336487808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1495550350}
@@ -653,7 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a19d5f117f08947a035a5cb5d96234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Title
-  nextSceneName: Stage1
+  nextSceneName: Title
   openingStory: {fileID: 1547040754}
   titleScreenRenderer: {fileID: 1480047534}
   titleFrames:
@@ -663,6 +663,11 @@ MonoBehaviour:
   frameHoldSeconds: 0.7
   transitionSeconds: 0.35
   finalHoldSeconds: 0.8
+  startPrompt: -ENTER to START-
+  startPromptBottomOffset: 95
+  promptFadeSeconds: 0.32
+  promptHoldSeconds: 0.18
+  promptDimAlpha: 0.18
 --- !u!212 &1480047534
 SpriteRenderer:
   serializedVersion: 2
@@ -900,7 +905,7 @@ MonoBehaviour:
   seVolume: 1
   part: 3
   playOnStart: 1
-  nextSceneName: Result
+  nextSceneName: Title
   protagonist: {fileID: 0}
   protagonistSprite: {fileID: 6667515014276263301, guid: 80bbc766ece4bc94d955c62678ee16c3, type: 3}
   gameplayInputGate: {fileID: 0}
@@ -1089,4 +1094,3 @@ SceneRoots:
   - {fileID: 1480047535}
   - {fileID: 1336487809}
   - {fileID: 1547040755}
-

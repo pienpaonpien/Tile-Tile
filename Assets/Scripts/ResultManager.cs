@@ -7,6 +7,12 @@ using TMPro;
 
 public class ResultManager : MonoBehaviour
 {
+    private const float StageSummaryFontSize = 56f;
+    private const int MoveCountFontSize = 44;
+    private const float PromptFadeSeconds = 0.32f;
+    private const float PromptHoldSeconds = 0.18f;
+    private const float PromptDimAlpha = 0.18f;
+
     [Header("--- 各ステージの手数表示 ---")]
     [SerializeField] private TMP_Text stage1Text;
     [SerializeField] private TMP_Text stage2Text;
@@ -14,20 +20,22 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private TMP_Text stage4Text;
 
     [Header("--- 合計手数表示 ---")]
-    [SerializeField] private TMP_Text totalText;
+    //[SerializeField] private TMP_Text totalText;
 
     [Header("--- リザルトメッセージ ---")]
     [SerializeField] private TMP_Text resultMessageText;
     [SerializeField, TextArea(2, 4)]
-    private string resultMessage = "すべてのステージをクリア！";
+    private string resultMessage = "手数";
 
     [Header("--- リザルト画面の素材 ---")]
     [SerializeField] private Sprite resultBackground;
     [SerializeField] private AudioClip resultBgm;
     [SerializeField] private AudioClip confirmClip;
-    [SerializeField] private string returnPrompt = "ENTER TO RETURN TO TITLE";
+    [SerializeField] private string returnPrompt = "-ENTER TO RETURN  TO TITLE-";
 
     private AudioSource resultAudioSource;
+    private CanvasGroup returnPromptCanvasGroup;
+    private Coroutine returnPromptBlinkCoroutine;
     private bool isReturning;
 
     private void Start()
@@ -43,19 +51,35 @@ public class ResultManager : MonoBehaviour
         int total = stage1 + stage2 + stage3 + stage4;
 
         if (stage1Text != null)
-            stage1Text.text = stage1.ToString("00");
+            SetStageSummary(stage1Text, 1, stage1);
 
         if (stage2Text != null)
-            stage2Text.text = stage2.ToString("00");
+            SetStageSummary(stage2Text, 2, stage2);
 
         if (stage3Text != null)
-            stage3Text.text = stage3.ToString("00");
+            SetStageSummary(stage3Text, 3, stage3);
 
         if (stage4Text != null)
-            stage4Text.text = stage4.ToString("00");
+            SetStageSummary(stage4Text, 4, stage4);
 
-        if (totalText != null)
-            totalText.text = total.ToString("000");
+        if (returnPromptCanvasGroup == null)
+        {
+            GameObject promptObject = GameObject.Find("ReturnPrompt");
+            if (promptObject != null)
+            {
+                returnPromptCanvasGroup = promptObject.GetComponent<CanvasGroup>();
+                if (returnPromptCanvasGroup == null)
+                    returnPromptCanvasGroup = promptObject.AddComponent<CanvasGroup>();
+            }
+        }
+
+        if (returnPromptCanvasGroup != null)
+        {
+            returnPromptCanvasGroup.alpha = 1f;
+            returnPromptCanvasGroup.interactable = false;
+            returnPromptCanvasGroup.blocksRaycasts = false;
+            returnPromptBlinkCoroutine = StartCoroutine(BlinkReturnPrompt());
+        }
 
         if (resultMessageText != null)
             resultMessageText.text = resultMessage;
@@ -89,7 +113,7 @@ public class ResultManager : MonoBehaviour
     private void CreateDefaultResultUI()
     {
         if (stage1Text != null || stage2Text != null || stage3Text != null ||
-            stage4Text != null || totalText != null || resultMessageText != null)
+            stage4Text != null || resultMessageText != null)
         {
             return;
         }
@@ -103,6 +127,22 @@ public class ResultManager : MonoBehaviour
         scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
         scaler.referenceResolution = new Vector2(1920f, 1080f);
         scaler.matchWidthOrHeight = 0.5f;
+
+        GameObject letterboxObject = new GameObject(
+            "ResultLetterbox",
+            typeof(RectTransform),
+            typeof(CanvasRenderer),
+            typeof(Image)
+        );
+        letterboxObject.transform.SetParent(canvasObject.transform, false);
+        RectTransform letterboxRect = (RectTransform)letterboxObject.transform;
+        letterboxRect.anchorMin = Vector2.zero;
+        letterboxRect.anchorMax = Vector2.one;
+        letterboxRect.offsetMin = Vector2.zero;
+        letterboxRect.offsetMax = Vector2.zero;
+        Image letterboxImage = letterboxObject.GetComponent<Image>();
+        letterboxImage.color = new Color(12f / 255f, 26f / 255f, 37f / 255f, 1f);
+        letterboxImage.raycastTarget = false;
 
         GameObject backgroundObject = new GameObject(
             "ResultBackground",
@@ -118,43 +158,86 @@ public class ResultManager : MonoBehaviour
         backgroundRect.offsetMax = Vector2.zero;
         Image backgroundImage = backgroundObject.GetComponent<Image>();
         backgroundImage.sprite = resultBackground;
-        backgroundImage.color = resultBackground != null ? Color.white : new Color(0.02f, 0.06f, 0.1f, 1f);
+        backgroundImage.color = Color.white;
+        backgroundImage.preserveAspect = true;
         backgroundImage.raycastTarget = false;
 
-        resultMessageText = CreateText(
-            canvasObject.transform, "ResultMessage", resultMessage,
-            42f, new Vector2(0f, 175f), new Vector2(1000f, 80f), TextAlignmentOptions.Center
+        stage4Text = CreateText(
+            canvasObject.transform, "Stage4Summary", FormatStageSummary(4, 0),
+            StageSummaryFontSize, new Vector2(-698f, 405f), new Vector2(430f, 140f), TextAlignmentOptions.Left
+        );
+        stage3Text = CreateText(
+            canvasObject.transform, "Stage3Summary", FormatStageSummary(3, 0),
+            StageSummaryFontSize, new Vector2(252f, 405f), new Vector2(430f, 140f), TextAlignmentOptions.Left
+        );
+        stage1Text = CreateText(
+            canvasObject.transform, "Stage1Summary", FormatStageSummary(1, 0),
+            StageSummaryFontSize, new Vector2(-698f, -110f), new Vector2(430f, 140f), TextAlignmentOptions.Left
+        );
+        stage2Text = CreateText(
+            canvasObject.transform, "Stage2Summary", FormatStageSummary(2, 0),
+            StageSummaryFontSize, new Vector2(-145f, -110f), new Vector2(430f, 140f), TextAlignmentOptions.Left
         );
 
-        stage1Text = CreateStageRow(canvasObject.transform, "Stage1", "STAGE 1", 72f);
-        stage2Text = CreateStageRow(canvasObject.transform, "Stage2", "STAGE 2", 18f);
-        stage3Text = CreateStageRow(canvasObject.transform, "Stage3", "STAGE 3", -36f);
-        stage4Text = CreateStageRow(canvasObject.transform, "Stage4", "STAGE 4", -90f);
-
-        CreateText(
-            canvasObject.transform, "TotalLabel", "TOTAL",
-            40f, new Vector2(-120f, -180f), new Vector2(360f, 64f), TextAlignmentOptions.Right
-        );
-        totalText = CreateText(
-            canvasObject.transform, "TotalMoves", "000",
-            48f, new Vector2(130f, -180f), new Vector2(200f, 72f), TextAlignmentOptions.Left
-        );
-        CreateText(
+        TMP_Text returnPromptText = CreateText(
             canvasObject.transform, "ReturnPrompt", returnPrompt,
-            30f, new Vector2(0f, -390f), new Vector2(900f, 64f), TextAlignmentOptions.Center
+            36f, new Vector2(0f, -350f), new Vector2(1000f, 64f), TextAlignmentOptions.Center
         );
+        RectTransform returnPromptRect = (RectTransform)returnPromptText.transform;
+        returnPromptRect.anchorMin = new Vector2(0f, 0.5f);
+        returnPromptRect.anchorMax = new Vector2(1f, 0.5f);
+        returnPromptRect.pivot = new Vector2(0.5f, 0.5f);
+        returnPromptRect.sizeDelta = new Vector2(0f, 64f);
+        returnPromptRect.anchoredPosition = new Vector2(0f, -350f);
+
+        returnPromptCanvasGroup = returnPromptText.gameObject.AddComponent<CanvasGroup>();
+        returnPromptCanvasGroup.alpha = 1f;
+        returnPromptCanvasGroup.interactable = false;
+        returnPromptCanvasGroup.blocksRaycasts = false;
     }
 
-    private TMP_Text CreateStageRow(Transform parent, string name, string label, float y)
+    private static string FormatStageSummary(int stage, int moves)
     {
-        CreateText(
-            parent, name + "Label", label,
-            32f, new Vector2(-120f, y), new Vector2(360f, 52f), TextAlignmentOptions.Right
-        );
-        return CreateText(
-            parent, name + "Moves", "00",
-            34f, new Vector2(130f, y), new Vector2(200f, 56f), TextAlignmentOptions.Left
-        );
+        return $"ステージ{stage}\n<size={MoveCountFontSize}>手数: {moves}</size>";
+    }
+
+    private static void SetStageSummary(TMP_Text text, int stage, int moves)
+    {
+        text.enableAutoSizing = false;
+        text.fontSize = StageSummaryFontSize;
+        text.text = FormatStageSummary(stage, moves);
+    }
+
+    private IEnumerator BlinkReturnPrompt()
+    {
+        while (!isReturning && returnPromptCanvasGroup != null)
+        {
+            yield return FadeReturnPrompt(PromptDimAlpha);
+            yield return new WaitForSecondsRealtime(PromptHoldSeconds);
+            yield return FadeReturnPrompt(1f);
+            yield return new WaitForSecondsRealtime(PromptHoldSeconds);
+        }
+    }
+
+    private IEnumerator FadeReturnPrompt(float targetAlpha)
+    {
+        if (returnPromptCanvasGroup == null)
+            yield break;
+
+        float startAlpha = returnPromptCanvasGroup.alpha;
+        float elapsed = 0f;
+
+        while (elapsed < PromptFadeSeconds && returnPromptCanvasGroup != null)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float progress = Mathf.Clamp01(elapsed / PromptFadeSeconds);
+            float smoothProgress = progress * progress * (3f - 2f * progress);
+            returnPromptCanvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, smoothProgress);
+            yield return null;
+        }
+
+        if (returnPromptCanvasGroup != null)
+            returnPromptCanvasGroup.alpha = targetAlpha;
     }
 
     private TMP_Text CreateText(
@@ -178,7 +261,9 @@ public class ResultManager : MonoBehaviour
         RectTransform rectTransform = (RectTransform)textObject.transform;
         rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        rectTransform.pivot = alignment == TextAlignmentOptions.Left
+            ? new Vector2(0f, 0.5f)
+            : new Vector2(0.5f, 0.5f);
         rectTransform.anchoredPosition = position;
         rectTransform.sizeDelta = size;
 
@@ -189,8 +274,9 @@ public class ResultManager : MonoBehaviour
         text.fontStyle = FontStyles.Bold;
         text.color = Color.white;
         text.alignment = alignment;
-        text.textWrappingMode = TextWrappingModes.NoWrap;
+        text.textWrappingMode = TextWrappingModes.Normal;
         text.raycastTarget = false;
+        textObject.AddComponent<JapaneseTMPFontBootstrap>();
         return text;
     }
 
@@ -233,6 +319,15 @@ public class ResultManager : MonoBehaviour
             return;
 
         isReturning = true;
+        if (returnPromptBlinkCoroutine != null)
+        {
+            StopCoroutine(returnPromptBlinkCoroutine);
+            returnPromptBlinkCoroutine = null;
+        }
+
+        if (returnPromptCanvasGroup != null)
+            returnPromptCanvasGroup.alpha = 1f;
+
         StartCoroutine(ReturnToTitleAfterConfirm());
     }
 
