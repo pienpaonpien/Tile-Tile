@@ -135,7 +135,7 @@ public class OpeningScript : StoryPlayer
         HideAll();
         onFinished?.Invoke();   // (プレイ画面に移行 / ステージ開始)
         if (which != Part.Opening) gameplayInputGate?.EnableGameplayInput();
-        if (!string.IsNullOrEmpty(nextSceneName)) SceneManager.LoadScene(nextSceneName);
+        SceneManager.LoadScene("Title");
     }
 
     // ════════════════════════ オープニング ════════════════════════
@@ -190,14 +190,17 @@ public class OpeningScript : StoryPlayer
         yield return Say("主人公", "serihu_s2", "...なんですかあなた");
         SetBG("op_s_h");                                    // 『op_s_h.png』
         // 枠の指定がメモに無かったので null（＝骸骨が前回使った serihu_h1 のまま）
-        yield return Say("骸骨", null, "私はここに埋葬された人間さ☆[jan.mp3]ここって地下だろ？お前が落ちた衝撃で起きたんだよ");
+        yield return Say("骸骨", null, "私はここに埋葬された人間さ☆[jan.mp3]ここって");
+        yield return Say("骸骨", null, "地下だろ？お前が落ちた衝撃で起きたんだよ");
 
         SetBG("op_s__h1");                                  // 『op_s__h1.png』
         yield return Say("主人公", "serihu_s2", "そうですか、では失礼");                // (立ち去ろうとする)
         yield return Say("骸骨", "serihu_h2", "ちょ、まてよ！この床のタイルを直してほしいんだ！");
         yield return Say("主人公", "serihu_s2", "いや、そもそも私、出口探さないといけないので、さようなら");
         PlaySE("syu_asiB");                    // [syu_asiB]
-        yield return Say("骸骨", "serihu_h1", "待てって！[hone_asi.mp3]ふーーーん、なるほどぉ？外に出たいのか。じゃあ、タイルを直してくれたら外に出るための方法を教えてやるってことで！");
+        yield return Say("骸骨", "serihu_h1", "待てって！[hone_asi.mp3]ふーーーん、なるほどぉ？");
+        yield return Say("骸骨", "serihu_h1", "外に出たいのか。");
+        yield return Say("骸骨", "serihu_h1", "じゃあ、タイルを直してくれたら外に出るための方法を教えてやるってことで！");
 
         SetBG("op_sa_h");                                   // 『op_sa_h.png』
         yield return Say("主人公", "serihu_s2", "...そうするしかないみたいですね");
