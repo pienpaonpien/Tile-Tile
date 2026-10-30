@@ -135,7 +135,7 @@ public class OpeningScript : StoryPlayer
         HideAll();
         onFinished?.Invoke();   // (プレイ画面に移行 / ステージ開始)
         if (which != Part.Opening) gameplayInputGate?.EnableGameplayInput();
-        SceneManager.LoadScene("Title");
+        if (!string.IsNullOrEmpty(nextSceneName)) SceneManager.LoadScene(nextSceneName);
     }
 
     // ════════════════════════ オープニング ════════════════════════
